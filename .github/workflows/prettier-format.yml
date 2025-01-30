@@ -36,7 +36,7 @@ jobs:
 
       - name: Commit changes (if any)
         if: steps.check-changes.outputs.changed == 'true'
-        run: 
+        run: echo steps.check-changes.outputs.changed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
