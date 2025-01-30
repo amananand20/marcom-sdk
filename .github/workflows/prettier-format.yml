@@ -1,0 +1,45 @@
+name: Format with Prettier and Commit
+
+on:
+  push:
+    branches:
+      - '**' # Trigger on pushes to all branches
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # Or your preferred Node.js version
+
+      - name: Install dependencies
+        run: npm ci # Or yarn install if you use Yarn
+
+      - name: Run Prettier in src
+        run: npx prettier --write src/
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if [[ -n "$(git diff --name-only)" ]]; then
+            echo "::set-output name=changed::true"
+          else
+            echo "::set-output name=changed::false"
+          fi
+
+      - name: Commit changes (if any)
+        if: steps.check-changes.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Style: Format with Prettier"
+          file_pattern: 'src/**/*.html src/**/*.js src/**/*.ts' # Commit ONLY these file types in src
+          push_options: '--force-with-lease'
+
+      - name: No changes message (optional)
+        if: steps.check-changes.outputs.changed == 'false'
+        run: echo "No code style changes needed."
