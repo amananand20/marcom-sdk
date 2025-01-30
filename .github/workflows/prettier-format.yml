@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Prettier in src
         run: |
-          npx prettier --write src/**/*.html src/**/*.js src/**/*.ts
+          npx prettier --write src/**/*.html src/**/*.js
 
       - name: Check for changes
         id: check-changes
@@ -32,7 +32,7 @@ jobs:
           else
             echo "changed='false'" >> $GITHUB_OUTPUT
           fi
-          
+
       - name: Check Git diff after Prettier
         run: git diff
 
@@ -41,7 +41,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
-          file_pattern: 'src/**/*.html src/**/*.js src/**/*.ts' # Commit ONLY these file types in src
+          file_pattern: 'src/**/*.html src/**/*.js # Commit ONLY these file types in src
           push_options: '--force-with-lease'
 
       - name: No changes message (optional)
