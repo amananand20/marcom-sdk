@@ -21,19 +21,22 @@ jobs:
         run: npm i # Or yarn install if you use Yarn
 
       - name: Run Prettier in src
-        run: npx prettier --write src/
+        run: |
+          npx prettier --write src/ > prettier_output.txt
+          cat prettier_output.txt
 
       - name: Check for changes
         id: check-changes
         run: |
           if [[ -n "$(git diff --name-only)" ]]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed='true'" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed='false'" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit changes (if any)
         if: steps.check-changes.outputs.changed == 'true'
+        run: 
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
