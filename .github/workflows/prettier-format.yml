@@ -32,6 +32,9 @@ jobs:
           else
             echo "changed='false'" >> $GITHUB_OUTPUT
           fi
+          
+      - name: Check Git diff after Prettier
+        run: git diff
 
       - name: Commit changes (if any)
         if: steps.check-changes.outputs.changed == 'true'
