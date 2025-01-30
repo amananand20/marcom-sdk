@@ -22,8 +22,7 @@ jobs:
 
       - name: Run Prettier in src
         run: |
-          npx prettier --write src/ > prettier_output.txt
-          cat prettier_output.txt
+          npx prettier --write src/**/*.html src/**/*.js src/**/*.ts
 
       - name: Check for changes
         id: check-changes
