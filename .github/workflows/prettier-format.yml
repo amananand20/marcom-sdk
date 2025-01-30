@@ -23,8 +23,7 @@ jobs:
         run: npm i # Or yarn install if you use Yarn
 
       - name: Run Prettier in src
-        run: |
-          npx prettier --write src/**/*.html src/**/*.js
+        run: npm run format
 
       - name: Check for changes
         id: check-changes
