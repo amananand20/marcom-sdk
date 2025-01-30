@@ -3,7 +3,7 @@ name: Format with Prettier and Commit
 on:
   push:
     branches:
-      - '**' # Trigger on pushes to all branches
+      - master
 
 jobs:
   format:
@@ -34,9 +34,6 @@ jobs:
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-
-      - name: Check Git diff after Prettier
-        run: git diff --name-only
       
       - name: Check file matching
         run: |
@@ -45,20 +42,13 @@ jobs:
           else
             echo "Changes detected"
           fi
-      
-      - name: Github Output check
-        run: 
-          echo ${{ steps.check-changes.outputs.changed }}
-          echo ${{ steps.check-changes.outputs.changed == 'true' }}
-          echo ${{ steps.check-changes.outputs.changed == 'false' }}
-
 
       - name: Commit changes (if any)
+        if: steps.check-changes.outputs.changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
-          file_pattern: 'src/**/*.html src/**/*.js' # Commit ONLY these file types in src
-          push_options: '--force-with-lease'
+          # file_pattern: 'src/**/*.html src/**/*.js' # Commit ONLY these file types in src
 
       - name: No changes message (optional)
         if: steps.check-changes.outputs.changed == 'false'
