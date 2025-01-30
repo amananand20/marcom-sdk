@@ -41,7 +41,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
-          file_pattern: 'src/**/*.html src/**/*.js # Commit ONLY these file types in src
+          file_pattern: 'src/**/*.html src/**/*.js' # Commit ONLY these file types in src
           push_options: '--force-with-lease'
 
       - name: No changes message (optional)
