@@ -1,1 +1,1 @@
-    const variable = 'code format testing';
+    const variable = 'code format testing'  ;
