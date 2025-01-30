@@ -8,6 +8,8 @@ on:
 jobs:
   format:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -35,9 +37,23 @@ jobs:
 
       - name: Check Git diff after Prettier
         run: git diff --name-only
+      
+      - name: Check file matching
+        run: |
+          if [[ -z "$(git diff --name-only)" ]]; then
+            echo "No changes detected"
+          else
+            echo "Changes detected"
+          fi
+      
+      - name: Github Output check
+        run: 
+          echo ${{ steps.check-changes.outputs.changed }}
+          echo ${{ steps.check-changes.outputs.changed == 'true' }}
+          echo ${{ steps.check-changes.outputs.changed == 'false' }}
+
 
       - name: Commit changes (if any)
-        if: steps.check-changes.outputs.changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
