@@ -48,7 +48,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Style: Format with Prettier"
-          # file_pattern: 'src/**/*.html src/**/*.js' # Commit ONLY these file types in src
 
       - name: No changes message (optional)
         if: steps.check-changes.outputs.changed == 'false'
